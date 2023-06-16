@@ -1,32 +1,35 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import { StyleSheet, View, Text, Switch, TextInput, Button, Modal, Image, TouchableOpacity, FlatList, Keyboard, ActivityIndicator, Animated } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function App() {
+  const [text, setText] = useState('')
   const [nome, setNome] = useState('Tiao')
+
+  const inputRef = useRef(null)
 
   useEffect(async () => {
     await AsyncStorage.setItem('nome', nome)
   }, [nome])
-
   useEffect(async () => {
     let nomeStorage = await AsyncStorage.getItem('nome')
-
     if(nomeStorage !== null){
       setNome(nomeStorage)
     }
-
   }, [])
   const letrasNomes = useMemo(() => (nome.length), [nome])
-
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.btn} onPress={() => setNome('Mateus (alterado)')}>
+      <TextInput ref={inputRef} style={{padding: 5, borderWidth: 2}} placeholder='Digite seu nome' onChangeText={(text) => setText(text)} value={text}/>
+      <TouchableOpacity style={styles.btn} onPress={() => setNome(text)}>
         <Text style={styles.btnText}>Altera nome</Text>
       </TouchableOpacity>
       <Text style={styles.texto}>Olá {nome}</Text>
-      <Text style={styles.texto}>Olá {letrasNomes}</Text>
+      <Text style={styles.texto}>{letrasNomes} letras</Text>
 
+      <TouchableOpacity onPress={() => inputRef.current.focus()}>
+        <Text>Alterar nome</Text>
+      </TouchableOpacity>
     </View >
   );
 }
