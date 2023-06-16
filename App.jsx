@@ -1,31 +1,11 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, Switch, TextInput, Button, Modal, Image, TouchableOpacity, FlatList, Keyboard } from 'react-native';
-
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-import Enter from './src/components/Enter';
+import { StyleSheet, View, Text, Switch, TextInput, Button, Modal, Image, TouchableOpacity, FlatList, Keyboard, ActivityIndicator } from 'react-native';
+import Converter from './src/components/Converter';
 
 export default function App() {
-
-  const [visible, setVisible] = useState(false)
-
-  const entrar = () => {
-    setVisible(true)
-  }
-
-  const sair = () => {
-    setVisible(false)
-  }
-
   return (
     <View style={styles.container}>
-      <Button title='Entrar' onPress={entrar} />
-
-      <Modal animationType='slide' visible={visible} transparent={true}>
-        <View style={{margin: 15, flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-          <Enter sair={sair} />
-        </View>
-      </Modal>
+      <Converter moedaA='USD' moedaB='BRL'/>
     </View >
   );
 }
@@ -33,5 +13,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
