@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { StyleSheet, FlatList, View, Text } from 'react-native';
+import People from './src/components/People';
+
 
 export default function App() {
   const [feed, setFeed] = useState([{
@@ -29,19 +31,9 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <FlatList keyExtractor={(item) => item.id} data={feed} renderItem={({ item }) => <Pessoa data={item} />}></FlatList>
+      <FlatList keyExtractor={(item) => item.id} data={feed} renderItem={({ item }) => <People data={item} />}></FlatList>
     </View>
   );
-}
-
-function Pessoa({ data }) {
-  return (
-    <View style={styles.areaPessoa}>
-      <Text style={styles.textoPessoa}>{data.nome}</Text>
-      <Text style={styles.textoPessoa}>{data.email}</Text>
-      <Text style={styles.textoPessoa}>{data.idade}</Text>
-    </View>
-  )
 }
 
 const styles = StyleSheet.create({
@@ -50,12 +42,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  areaPessoa: {
-    backgroundColor: '#222',
-    marginTop: 15
-  },
-  textoPessoa: {
-    color: '#FFF',
-    fontSize: 20
-  }
 });
