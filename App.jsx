@@ -1,32 +1,44 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, Switch, TextInput, Button, Modal, Image, TouchableOpacity, FlatList, Keyboard } from 'react-native';
+import { StyleSheet, View, Text, Switch, TextInput, Button, Modal, Image, TouchableOpacity, FlatList, Keyboard , ActivityIndicator} from 'react-native';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import api_client from './src/config/api_client';
 
-import Enter from './src/components/Enter';
+import Movies from './src/components/Movies';
 
 export default function App() {
 
-  const [visible, setVisible] = useState(false)
+  const [filmes, setFilmes] = useState([])
+  const [loading, setLoading] = useState(true)
 
-  const entrar = () => {
-    setVisible(true)
-  }
+  useEffect(async () => {
+    const response = await api_client.get('r-api/?api=filmes')
+    setFilmes(response.data)
+    setLoading(false)
+  }, [])
 
-  const sair = () => {
-    setVisible(false)
-  }
-
-  return (
-    <View style={styles.container}>
-      <Button title='Entrar' onPress={entrar} />
-
-      <Modal animationType='slide' visible={visible} transparent={true}>
-        <View style={{margin: 15, flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-          <Enter sair={sair} />
+  function renderData() {
+    if (!loading) {
+      return (
+        <View style={styles.container}>
+          <FlatList data={filmes} keyExtractor={item => item.id.toString()} renderItem={({ item }) => {
+            return <Movies data={item} />
+          }} />
+        </View >
+      )
+    } else {
+      return (
+        <View>
+          <ActivityIndicator></ActivityIndicator>
         </View>
-      </Modal>
-    </View >
+      )
+    }
+  }
+
+  
+  return (
+    <>
+      {renderData()}
+    </>
   );
 }
 
