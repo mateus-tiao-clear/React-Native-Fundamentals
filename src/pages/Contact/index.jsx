@@ -20,8 +20,6 @@ const Contact = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={{textAlign: "center"}}>Contato</Text>
-      <Button title="Voltar tela anterior" onPress={() => navigation.goBack()}/>  
-      <Button title="Voltar home" onPress={() => navigation.dispatch(StackActions.popToTop())}/> 
     </SafeAreaView>
   );
 };

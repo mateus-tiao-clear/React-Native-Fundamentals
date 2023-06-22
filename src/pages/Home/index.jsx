@@ -21,7 +21,7 @@ import { useNavigation } from '@react-navigation/native';
 
 
    function navegaSobre(){
-     navigation.navigate("Sobre", {nome: "Tiao", email: "tiaoCoder@gmail.com"})
+     navigation.navigate("Sobre")
    }
 
    return (
