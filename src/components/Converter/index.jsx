@@ -5,7 +5,7 @@ import { View, Text, TextInput, TouchableOpacity, Keyboard, StyleSheet } from "r
 import api_client from "../../config/api_client";
 // https://free.currencyconverterapi.com/api/v5/convert?q=USD_BRL&compact=ultra&apiKey=7c5ef455b88d735bc6ad
 
-export default function Converter({moedaA, moedaB}){
+export default function Converter({ moedaA, moedaB }) {
   const [data, setData] = useState({
     moedaA: moedaA,
     moedaB: moedaB,
@@ -13,13 +13,13 @@ export default function Converter({moedaA, moedaB}){
     valorConvertido: 0
   })
 
-  async function converter(){
+  async function converter() {
     let de_para = data.moedaA + '_' + data.moedaB
     const response = await api_client.get('convert?q=' + de_para + '&compact=ultra&apiKey=7c5ef455b88d735bc6ad')
     let cotacao = response.data[de_para]
 
     let resultado = (cotacao * parseFloat(data.moedaB_valor))
-    setData({...data, valorConvertido: resultado.toFixed(2) })
+    setData({ ...data, valorConvertido: resultado.toFixed(2) })
 
     Keyboard.dismiss()
   }
@@ -27,7 +27,7 @@ export default function Converter({moedaA, moedaB}){
   return (
     <View style={styles.container}>
       <Text style={styles.titulo}>{moedaA} para {moedaB}</Text>
-      <TextInput keyboardType="numeric" placeholder='Valor a ser convertido' style={styles.areaInput} onChangeText={({moedaB_valor}) => [setData({...data, moedaB_valor})]}/>
+      <TextInput keyboardType="numeric" placeholder='Valor a ser convertido' style={styles.areaInput} onChangeText={({ moedaB_valor }) => [setData({ ...data, moedaB_valor })]} />
 
       <TouchableOpacity style={styles.botaoArea} onPress={converter}>
         <Text style={styles.botaoTexto}>Converter</Text>
